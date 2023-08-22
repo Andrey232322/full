@@ -10,7 +10,7 @@ user_router = APIRouter(prefix='/users',tags=['user'])
 def show_user(id : int = None,db:Session = Depends(get_db)):
     user = crud.get_user(id,db)
     return user
-@user_router.get('/all')
+@user_router.get('/')
 def show_users_all(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     return crud.show_user_all(db,skip=skip,limit=limit)
 @user_router.post('/')
