@@ -1,27 +1,34 @@
 from sqlalchemy.orm import Session
 
-from models.model_db import User, Item
-
+from models.model_db import User
+from models import shemas_db
 
 def get_user(user_id: int,db ):
     return db.query(User).filter(User.id == user_id).first()
 
-def create_user(data:list[User],db):
-    db_user = User(id = data.id,name = data.name,last_name = data.last_name,active = data.active)
+def create_user(data:shemas_db.User,db):
+    user = User(name = data.name)
     try:
-        db.add(db_user)
+        db.add(user)
         db.commit()
-        db.refresh(db_user)
+        db.refresh(user)
     except Exception as e:
         print(e)
-    return db_user
+    return user
 
-def create_item(data:list[Item],db):
-    db_user = Item(id = data.id,adres = data.adres,phone = data.phone,price = data.price)
-    try:
-        db.add(db_user)
-        db.commit()
-        db.refresh(db_user)
-    except Exception as e:
-        print(e)
-    return db_user
+def update(data:shemas_db.User,db:Session,id:int):
+    shem_user = db.query(User).filter(User.id==id).first()
+    shem_user.name = data.name
+
+    db.add(shem_user)
+    db.commit()
+    db.refresh(shem_user)
+
+    return shem_user
+def delete_user(db:Session,id:int):
+    user = db.query(User).filter(User.id ==id).delete()
+    db.commit()
+    return user
+
+def show_user_all(db: Session, skip: int = 0, limit: int = 100):
+    return db.query(User).offset(skip).limit(limit).all()
