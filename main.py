@@ -1,7 +1,7 @@
 from fastapi import FastAPI, Depends
 from fastapi_users import fastapi_users, FastAPIUsers
 
-from auth.cooki_jvt import auth_backend
+from auth.manager_auth import auth_backend
 from auth.database_auth import User, create_db_and_tables
 from auth.manager_auth import get_user_manager, current_active_user
 from auth.schemas_auth import UserRead, UserCreate, UserUpdate
