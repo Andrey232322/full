@@ -5,6 +5,7 @@ from auth.manager_auth import auth_backend
 from auth.database_auth import User, create_db_and_tables
 from auth.manager_auth import get_user_manager, current_active_user
 from auth.schemas_auth import UserRead, UserCreate, UserUpdate
+from operation.router_oper import router_oper
 from router import user_router
 from models.db import Base, engine
 
@@ -40,7 +41,7 @@ app.include_router(
     tags=["auth"],
 )
 
-
+app.include_router(router_oper)
 
 @app.get("/authenticated-route")
 async def authenticated_route(user: User = Depends(current_active_user)):
